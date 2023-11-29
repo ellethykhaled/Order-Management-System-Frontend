@@ -1,0 +1,40 @@
+<div class="container">
+    <h2>Selling Purchase Details</h2>
+    <div class="summary" *ngIf="isErrorFree">
+        <p>Number of Purchases: {{ purchaseCount }}</p>
+        <p>Total Revenue: EGP {{ totalRevenue?.toFixed(2) }}</p>
+    </div>
+    <section *ngIf="isErrorFree">
+        <div *ngFor="let item of purchaseList" class="purchase-item">
+            <div class="item-info">
+                <h3>Products</h3>
+                <table>
+                    <thead>
+                        <tr class="details-title">
+                            <th>Name</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let product of item.products">
+                            <td>{{ product.name }}</td>
+                            <td>{{ product.quantity }}</td>
+                            <td>{{ product.price.toFixed(2) }}</td>
+                            <td>{{ (product.price * product.quantity).toFixed(2) }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="purchase-summary">
+                <h4>Revenue: EGP {{ item.revenue.toFixed(2) }}</h4>
+                <h4 *ngIf="item.orderId > 0">Order: {{ item.orderId }}</h4>
+                <h4>Date: {{ item.purchaseDate }}</h4>
+            </div>
+        </div>
+    </section>
+    <section *ngIf="!isErrorFree">
+        <h3>Service seems down :'(</h3>
+    </section>
+</div>

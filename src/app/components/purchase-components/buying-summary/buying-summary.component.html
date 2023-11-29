@@ -1,0 +1,21 @@
+<div class="container">
+    <h2>Buying Purchase Summary</h2>
+    <div class="summary" *ngIf="isErrorFree">
+        <p>Number of Products Purchased: {{ productsPurchased }}</p>
+        <p>Total Revenue: EGP {{ totalCost?.toFixed(2) }}</p>
+    </div>
+    <section *ngIf="isErrorFree">
+        <div *ngFor="let item of costs" class="product-summary">
+            <div class="item-info">
+                <p>Revenue from Product: EGP {{ item.cost.toFixed(2) }}</p>
+                <p>Quantity: {{ item.purchaseCount }}</p>
+            </div>
+            <div class="details-title">
+                <h3>{{ item.productName }}</h3>
+            </div>
+        </div>
+    </section>
+    <section *ngIf="!isErrorFree">
+        <h3>Service seems down :'(</h3>
+    </section>
+</div>

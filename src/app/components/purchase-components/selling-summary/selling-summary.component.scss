@@ -1,0 +1,48 @@
+.container {
+    background-color: #E4DCCF;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+    h2 {
+        color: #002B5B;
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+    .product-summary {
+        background-color: #FFFFFF;
+        padding: 10px;
+        border: 1px solid #E4DCCF;
+        border-radius: 5px;
+        display: flex;
+        margin: 10px 0;
+        justify-content: space-between;
+        .details-title {
+            margin-right: 20px;
+        }
+        .item-details {
+            
+            .item-info h3 {
+                color: #002B5B;
+                font-size: 16px;
+            }
+            
+            .item-info p {
+                color: #002B5B;
+                font-size: 14px;
+            }
+        }
+        
+    }
+    .summary {
+        margin-top: 20px;
+        text-align: right;
+        font-weight: bold;
+    }
+    .summary p {
+        color: #002B5B;
+        font-size: 18px;
+    } 
+}
+
