@@ -10,52 +10,58 @@
         font-size: 24px;
         margin-bottom: 20px;
     }
-    .purchase-item {
-        background-color: #FFFFFF;
-        padding: 10px;
-        border: 1px solid #E4DCCF;
-        border-radius: 5px;
-        margin: 15px 0;
-        display: flex;
-        justify-content: space-between;
 
-        .item-details {
-            display: flex;
-            align-items: center;
-            
-            .item-info h3 {
-                color: #002B5B;
-                font-size: 16px;
-            }
-            
-            .item-info p {
-                color: #002B5B;
-                font-size: 14px;
-            }
-            .purchase-summary h4 {
-                color: #002B5B;
-                font-size: 14px;
-            }
+    .product-attribute {
+
+        .general-field {
+            text-align: center;
+            align-content: center;
+            width: 100px;
+            margin: 5px;
         }
-        th, td {
-            border: 1px solid #000000;
-            padding: 10px;
-            text-align: left;
+    }
+
+    .remove-product-btn {
+        padding: 8px;
+
+        button {
+            border: 0px;
+            padding: 8px;
+            height: 36px;
+            background-color: #FF0000;
+            color: white;
+        }
+    }
+
+    .add-product-btn {
+        padding: 8px;
+        height: 36px;
+        width: 116px;
+        background-color: #002B5B;
+        color: white;
+    }
+
+    .purchase-btn {
+        button {
+            border: 0px;
+            padding: 8px;
+            height: 46px;
+            width: 500px;
+            background-color: #048239;
+            font-size: large;
+            color: white;
+            margin-top: 12px;
         }
 
-        .details-title {
-            color: #002B5B;
+        button:disabled {
+            background-color: rgba(128, 128, 128, 0.9);
+        }
+
+        .total-price {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-weight: bold;
             font-size: 18px;
         }
     }
-    .summary {
-        margin-top: 20px;
-        text-align: right;
-        font-weight: bold;
-    }
-    .summary p {
-        color: #002B5B;
-        font-size: 18px;
-    }
 }
-

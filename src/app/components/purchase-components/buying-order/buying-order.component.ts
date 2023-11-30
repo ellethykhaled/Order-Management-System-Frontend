@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { PurchaseService } from 'src/app/services/purchase.service';
 import { PurchaseOrder } from 'src/app/interfaces/purchase';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'buying-order',
@@ -10,10 +12,13 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 })
 export class BuyingOrderComponent implements OnInit {
   form!: FormGroup;
-  isErrorFree = true;
+  processingRequest = false;
 
   constructor(private formBuilder: FormBuilder,
-    private purchaseService: PurchaseService) {
+    private purchaseService: PurchaseService,
+    private snackBar: MatSnackBar,
+    private router: Router
+    ) {
     this.form = this.formBuilder.group({
       products: this.formBuilder.array([])
     });
@@ -26,31 +31,41 @@ export class BuyingOrderComponent implements OnInit {
   get products() {
     return this.form.controls["products"] as FormArray;
   }
-  getProductForm(i): FormGroup {
-    console.log('Here 1')
-    console.log(typeof this.products)
-    console.log(typeof this.products.get(i))
-    
-    return this.products.at(i) as FormGroup;
+  calculateProductTotal(i) {
+    const product = this.products.at(i).value;
+    const total = (product.quantity * product.price).toFixed(2);
+    return total;
+  }
+
+  calculateTotalPrice() {
+    let total = 0;
+
+    this.products.controls.forEach((productControl) => {
+      const product = productControl.value;
+      total += product.quantity * product.price;
+    });
+
+    return total.toFixed(2);
   }
 
   addProduct(): void {
     const productForm = this.formBuilder.group({
-      name: new FormControl('ok', [Validators.pattern('[\\w\\-\\s\\/]+'), Validators.required]),
+      name: new FormControl('', [Validators.pattern('[\\w\\-\\s\\/]+'), Validators.required]),
       quantity: new FormControl(1, [Validators.required, Validators.min(1)]),
       price: new FormControl(0.01, [Validators.required, Validators.min(0.01)]),
-      category: new FormControl('ok', [Validators.pattern('[\\w\\-\\s\\/]+'), Validators.required]),
+      category: new FormControl('', [Validators.pattern('[\\w\\-\\s\\/]+'), Validators.required]),
     });
     this.products.push(productForm);
-    console.log("Added Product");
+    console.log("Added product");
   }
 
   deleteProduct(index): void {
     this.products.removeAt(index);
-    console.log("Deleted $d", index);
+    console.log("Deleted product at ", index);
   }
 
   submitOrder(orderForm) {
+    this.processingRequest = true;
     console.log(orderForm.products.length);
 
     const order: PurchaseOrder = {
@@ -64,13 +79,20 @@ export class BuyingOrderComponent implements OnInit {
 
     this.purchaseService.submitBuyingOrder(order).subscribe(
       {
-        next: data => {
-          this.isErrorFree = true;
+        next: async () => {
           console.log('Purchased');
+          this.snackBar.open('Purchase Complete!', 'Close', {
+            duration: 5000,
+          });
+          await new Promise(f => setTimeout(f, 5000));
+          this.router.navigate(['buying/details']);
         },
         error: err => {
+          this.processingRequest = false;
           console.log(err);
-          this.isErrorFree = false;
+          this.snackBar.open('The service seems down. Please try again later!', 'Close', {
+            duration: 3000,
+          });
         }
       }
     )

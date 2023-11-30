@@ -2,33 +2,47 @@
     <h2>Submit Order</h2>
     <form [formGroup]="form" (ngSubmit)="submitOrder(form.value)">
         <ng-container formArrayName="products">
-            <ng-container *ngFor="let product of products.controls; let i = index">
-                <div [formGroupName]="i">
-                    <ul>
-                        <li>
-                            <label>Name</label>
-                            <input type="text" formControlName="name" />
-                        </li>
-                        <li>
-                            <label>Quantity</label>
-                            <input type="number" formControlName="quantity" />
-                        </li>
-                        <li>
-                            <label>Price</label>
-                            <input type="number" formControlName="price" />
-                        </li>
-                        <li>
-                            <label>Category</label>
-                            <input type="text" formControlName="category" />
-                        </li>
-                        <div>
-                            <button type="button" (click)="deleteProduct(i)">Delete</button>
-                        </div>
-                    </ul>
-                </div>
-            </ng-container>
+            <table class="product-attribute">
+                <thead>
+                    <tr class="details-title">
+                        <th></th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let product of products.controls; let i = index">
+                        <tr [formGroupName]="i">
+                            <td>{{ i + 1 }}</td>
+                            <td>
+                                <input class="general-field" type="text" maxlength="25" formControlName="name" />
+                            </td>
+                            <td>
+                                <input class="general-field" type="text" maxlength="25" formControlName="category" />
+                            </td>
+                            <td>
+                                <input class="general-field" type="number" formControlName="quantity" />
+                            </td>
+                            <td>
+                                <input class="general-field" type="number" formControlName="price" />
+                            </td>
+                            <td class="general-field">{{ calculateProductTotal(i) }}</td>
+
+                            <td class="remove-product-btn">
+                                <button type="button" (click)="deleteProduct(i)">Delete</button>
+                            </td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
         </ng-container>
-        <button type="button" (click)="addProduct()">Add Product</button>
-        <button type="submit" [disabled]="!form.valid || products.length < 1">Purchase</button>
+        <button class="add-product-btn" type="button" (click)="addProduct()">Add Product</button>
+        <div class="purchase-btn">
+            <div class="total-price">Total Price: EGP {{ calculateTotalPrice() }}</div>
+            <button type="submit" [disabled]="!form.valid || products.length < 1 || processingRequest">Purchase</button>
+        </div>
     </form>
 </div>
