@@ -33,3 +33,14 @@
 
 
 </div>
+
+<ng-container *ngIf="userRole === 'ROLE_ADMIN' || userRole === 'ROLE_MANAGER'">
+    <nav>
+        <a href="home">Home</a>
+        <a href="buying/details">Buying Details</a>
+        <a href="buying/summary">Buying Summary</a>
+        <a href="buying/submit-order">Buy Order</a>
+        <a href="selling/summary">Selling Summary</a>
+        <a href="selling/details">Selling Details</a>
+    </nav>
+</ng-container>
