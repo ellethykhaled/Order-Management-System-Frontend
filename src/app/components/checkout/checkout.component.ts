@@ -2,6 +2,7 @@ import { OrderLineItemDto, Product } from './../../interfaces/product';
 import { OrderService } from './../../services/order.service';
 import { ImplicitReceiver } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CartItem } from 'src/app/interfaces/cartItem';
 import { ShoppingCartService } from 'src/app/services/shopping-cart.service';
 
@@ -12,7 +13,7 @@ import { ShoppingCartService } from 'src/app/services/shopping-cart.service';
 })
 export class CheckoutComponent implements OnInit{
   cartItems: CartItem[];
-constructor(private _CartService:ShoppingCartService,private _OrderService:OrderService){}
+constructor(private _CartService:ShoppingCartService,private _OrderService:OrderService, private router: Router){}
   ngOnInit(): void {
     //this._CartService.getCartItems();
     this.cartItems=this._CartService.getCartItems();
@@ -25,6 +26,8 @@ constructor(private _CartService:ShoppingCartService,private _OrderService:Order
  placeOrder(Items:any){
   this._OrderService.placeOrder(Items).subscribe((response)=>{
     console.log(response);
+    this._CartService.clearCart();
+    this.router.navigate(["\home"])
   })
 
  }
